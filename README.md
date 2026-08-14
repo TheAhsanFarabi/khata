@@ -16,6 +16,32 @@ Khata is a lightweight, role-based academic workflow platform designed for schoo
 - **Architecture**: MVC pattern with robust DTOs and Controllers
 - **Auth**: JWT Bearer token authorization
 
+For a deep dive into the application architecture, database schemas, and testing strategies, please read the [System Design Document](SYSTEM_DESIGN.md).
+
+---
+
+## 🛠 Installation & Setup Guide
+
+Since the application utilizes an In-Memory Database and built-in Next.js tooling, running the project locally is incredibly straightforward. No database credentials or Docker containers are required.
+
+### 1. Start the .NET API (Backend)
+Open a terminal, navigate to the backend API directory, and run it:
+```bash
+cd backend/AssignmentSystem.API
+dotnet restore
+dotnet run
+```
+The API will start at `http://localhost:5025`.
+
+### 2. Start the Next.js Client (Frontend)
+Open a new terminal window, navigate to the frontend directory, install the packages, and run the development server:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+The frontend will start at `http://localhost:3000`.
+
 ---
 
 ## 🔑 Demo Credentials & Seeding Info
