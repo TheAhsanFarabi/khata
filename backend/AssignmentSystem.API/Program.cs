@@ -39,13 +39,16 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Temporarily using InMemory DB since Docker/PostgreSQL is unavailable on this environment
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("AssignmentSystemDB"));
-    
-// For production/evaluation, switch back to:
-// builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+if (Environment.GetEnvironmentVariable("USE_POSTGRES") == "true")
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
+else
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseInMemoryDatabase("AssignmentSystemDB"));
+}
 
 var jwtKey = builder.Configuration["Jwt:Key"];
 if (string.IsNullOrEmpty(jwtKey)) throw new InvalidOperationException("JWT Key is missing in configuration.");
