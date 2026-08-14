@@ -1,80 +1,70 @@
-# Assignment & Submission Management System
+# Khata - Assignment Management System
 
-A role-based school/college application for evaluating understanding of requirements, system design, API development, frontend implementation, and testing.
+Khata is a lightweight, role-based academic workflow platform designed for schools and colleges. Built with a clean B2B SaaS design aesthetic, it provides administrators, teachers, and students with a centralized dashboard to manage, submit, and grade coursework seamlessly.
 
-## Features
-- **Admin**: View and manage system users, classes, and subjects.
-- **Teacher**: Create, update, and publish assignments. View submissions and provide grades/feedback.
-- **Student**: View available assignments for their class, submit answers, and view grades/feedback.
+## 🚀 Tech Stack
 
-## Tech Stack
-- **Frontend**: Next.js (App Router) + React + TypeScript + Tailwind CSS
-- **Backend**: ASP.NET Core Web API (C#, .NET 8)
-- **Database**: PostgreSQL via EF Core (Npgsql)
-- **Testing**: xUnit + InMemory Database
-- **Authentication**: JWT-based authentication
+### Frontend
+- **Framework**: Next.js 16 (App Router, Turbopack)
+- **Styling**: Tailwind CSS v4 (Light theme, B2B aesthetic)
+- **Language**: TypeScript
+- **Auth**: Stateless JWT-based authentication
 
-## Project Structure
-- `/backend`: ASP.NET Core 8 Web API & xUnit tests
-- `/frontend`: Next.js application
-- `docker-compose.yml`: Local PostgreSQL setup
+### Backend
+- **Framework**: ASP.NET Core 8 Web API
+- **Database**: Entity Framework Core (In-Memory Database for rapid prototyping)
+- **Architecture**: MVC pattern with robust DTOs and Controllers
+- **Auth**: JWT Bearer token authorization
 
-## Setup Instructions
+---
 
-### 1. Database Setup (Docker)
-Ensure Docker is installed, then run:
-```bash
-docker compose up -d
-```
-*Note: EF Core migrations are configured to run automatically on application startup (via `SeedData.cs`), so no manual `dotnet ef database update` is required.*
+## 🔑 Demo Credentials & Seeding Info
 
-### 2. Backend Setup
-1. Open a terminal and navigate to the backend API folder:
-```bash
-cd backend/AssignmentSystem.API
-```
-2. Build and run the API (it will automatically create the DB schema and seed data):
-```bash
-dotnet run
-```
-The API will be available at `http://localhost:5000` or `https://localhost:5001`. Swagger UI is at `/swagger`.
+The application uses an **In-Memory Database**. Every time the .NET backend starts, `SeedData.cs` automatically populates the database with dummy users, classes, subjects, assignments, and submissions. You do not need to run any migrations to test the app.
 
-### 3. Frontend Setup
-1. Open a new terminal and navigate to the frontend folder:
-```bash
-cd frontend
-```
-2. Install dependencies:
-```bash
-npm install
-```
-3. Run the development server:
-```bash
-npm run dev
-```
-The application will be available at `http://localhost:3000`.
-
-### 4. Running Tests
-To run the xUnit tests verifying business rules:
-```bash
-cd backend/AssignmentSystem.Tests
-dotnet test
-```
-
-## Demo Credentials
-The system automatically seeds the following users on startup:
+You can log into the platform using the following demo credentials:
 
 | Role | Email | Password |
 | :--- | :--- | :--- |
-| **Admin** | `admin@school.com` | `admin123` |
-| **Teacher** | `john@school.com` | `teacher123` |
-| **Student** | `alice@school.com` | `student123` |
+| **Admin** | `admin@khata.com` | `admin123` |
+| **Teacher** | `teacher@khata.com` | `teacher123` |
+| **Student** | `student@khata.com` | `student123` |
 
-## Assumptions & Design Decisions
-1. **JWT Storage**: The JWT is stored in `localStorage` for simplicity in this demo. In a high-security production app, HTTP-only cookies are recommended.
-2. **Password Hashing**: Passwords for seeded demo users are stored as plain text per the "placeholder-but-functional" request. In production, ASP.NET Core Identity's `PasswordHasher` or `BCrypt` should be used.
-3. **Admin Controllers**: Minimal controllers for `Users`, `Classes`, and `Subjects` were implemented to fulfill the Admin dashboard requirement.
-4. **Resubmission**: If an assignment allows resubmission, students can resubmit until the deadline *unless* it has already been graded.
+*(Note: In the frontend login page, clicking on the credentials will automatically fill the form for you).*
 
-## Known Limitations
-- The frontend UI uses simplified mocked views for standard CRUD operations to keep the boilerplate manageable. The backend fully supports these endpoints.
+---
+
+## 🎯 Features
+
+### Admin Workflow
+- **User Management**: Register and delete users across all three roles.
+- **Academic Structure**: Create and organize Classes and Subjects.
+- **System Activity**: Monitor recent assignments and student submissions across the entire platform.
+- **Global Settings**: Toggle Maintenance Mode (blocks non-admins), set Academic Year/Semester, and configure platform limits.
+
+### Teacher Workflow
+- **Coursework Management**: Create, edit, publish, and delete assignments.
+- **Flexible Configurations**: Set max marks, exact deadlines (date and time), and toggle resubmission policies.
+- **Grading Pipeline**: View all submissions for a specific assignment, assign scores, and leave constructive feedback.
+
+### Student Workflow
+- **Dashboard Overview**: Instantly track total due assignments, submitted work, and graded coursework.
+- **Submit Answers**: Clean interface for submitting text-based answers to published coursework.
+- **Real-time Statuses**: Keep track of whether an assignment is `Draft`, `Published`, `Late`, `Submitted`, or `Graded`.
+- **View Feedback**: Access teacher scores and detailed feedback upon grading.
+
+---
+
+## 🔮 Future Scope
+
+While the current implementation perfectly satisfies the assignment requirements, the following features would be implemented before a production release:
+
+1. **Persistent Database Integration**: Transition from the EF Core In-Memory database to a robust relational database like PostgreSQL or SQL Server.
+2. **File Uploads**: Implement cloud storage (e.g., AWS S3, Azure Blob Storage) to allow students to upload PDF/Word documents rather than relying strictly on text-box answers.
+3. **Robust Security**: Replace the demo plaintext passwords with cryptographically secure hashing (e.g., BCrypt or Argon2).
+4. **Notifications System**: Add email/SMS notifications alerting students of upcoming deadlines and notifying them when a teacher grades their submission.
+5. **Pagination & Filtering**: Implement server-side pagination and advanced filtering on the data tables to support schools with thousands of concurrent users.
+
+---
+
+*Developer: Ahsan Farabi, CSE Graduate from UIU, Assignment for Onnorkom Projokti.*
