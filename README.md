@@ -22,33 +22,86 @@ For a deep dive into the application architecture, database schemas, and testing
 
 ## 🛠 Installation & Setup Guide
 
-Since the application utilizes an In-Memory Database and built-in Next.js tooling, running the project locally is incredibly straightforward. No database credentials or Docker containers are required.
+**🌟 Best Practice Guideline**: The most reliable, isolated, and professional way to run this application across any operating system is using **Docker**. This guarantees that you won't encounter mismatched Node.js versions or missing .NET SDKs. 
 
-### 1. Start the .NET API (Backend)
-Open a terminal, navigate to the backend API directory, and run it:
+### Step 1: Install Docker (If you haven't already)
+
+<details>
+<summary><strong>🐧 Linux (Ubuntu/Debian)</strong></summary>
+
+1. Update your package index:
+   ```bash
+   sudo apt-get update
+   ```
+2. Install Docker and Docker Compose:
+   ```bash
+   sudo apt-get install docker.io docker-compose-v2
+   ```
+3. Start the Docker daemon and enable it on boot:
+   ```bash
+   sudo systemctl start docker
+   sudo systemctl enable docker
+   ```
+4. *(Optional)* Add your user to the docker group so you don't need `sudo` every time:
+   ```bash
+   sudo usermod -aG docker $USER
+   # Then log out and log back in
+   ```
+</details>
+
+<details>
+<summary><strong>🪟 Windows</strong></summary>
+
+1. Download **Docker Desktop for Windows** from the [official Docker website](https://www.docker.com/products/docker-desktop/).
+2. Run the installer (ensure WSL 2 backend is selected during installation for the best performance).
+3. Once installed, launch the "Docker Desktop" application. Wait for the engine icon in your system tray to turn green.
+</details>
+
+<details>
+<summary><strong>🍏 macOS</strong></summary>
+
+1. Download **Docker Desktop for Mac** (choose Intel or Apple Silicon depending on your chip) from the [official Docker website](https://www.docker.com/products/docker-desktop/).
+2. Open the downloaded `.dmg` file and drag Docker to your Applications folder.
+3. Launch Docker from Applications. Follow the prompts to grant privileged access. Wait for the engine to start (green icon in the top menu bar).
+</details>
+
+### Step 2: Run the Application (Docker Method - Recommended)
+
+Once Docker is running, open a terminal at the root of this project and run:
+
+```bash
+docker compose up --build
+```
+This single command will:
+1. Pull a PostgreSQL database image.
+2. Build the ASP.NET Core 8 Web API image and start it on port `5025`.
+3. Build the Next.js frontend image (in optimized standalone mode) and start it on port `3000`.
+
+- **Frontend**: [http://localhost:3000](http://localhost:3000)
+- **Backend API**: [http://localhost:5025](http://localhost:5025)
+
+To stop the application gracefully, press `Ctrl+C`, or run `docker compose down` in another terminal.
+
+---
+
+### Alternative: Manual Setup (No Docker)
+
+If you prefer to run the applications directly on your host machine, you will need the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) and [Node.js (v18+)](https://nodejs.org/) installed.
+
+**1. Start the Backend API**
 ```bash
 cd backend/AssignmentSystem.API
 dotnet restore
 dotnet run
 ```
-The API will start at `http://localhost:5025`.
 
-### 2. Start the Next.js Client (Frontend)
-Open a new terminal window, navigate to the frontend directory, install the packages, and run the development server:
+**2. Start the Frontend Client**
+Open a new terminal window:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-The frontend will start at `http://localhost:3000`.
-
-### 3. Start with Docker (Full Stack)
-If you prefer to run the entire stack (Database, Backend, and Frontend) in isolated containers with a single command, you can use Docker Compose. Ensure you have Docker installed and run:
-```bash
-docker compose up --build
-```
-- Frontend will be available at `http://localhost:3000`
-- Backend API will be available at `http://localhost:5025`
 
 ---
 
