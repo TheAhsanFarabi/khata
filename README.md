@@ -42,6 +42,14 @@ npm run dev
 ```
 The frontend will start at `http://localhost:3000`.
 
+### 3. Start with Docker (Full Stack)
+If you prefer to run the entire stack (Database, Backend, and Frontend) in isolated containers with a single command, you can use Docker Compose. Ensure you have Docker installed and run:
+```bash
+docker compose up --build
+```
+- Frontend will be available at `http://localhost:3000`
+- Backend API will be available at `http://localhost:5025`
+
 ---
 
 ## 🔑 Demo Credentials & Seeding Info
